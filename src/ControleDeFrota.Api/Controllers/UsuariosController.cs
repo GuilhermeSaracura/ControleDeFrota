@@ -1,3 +1,4 @@
+using ControleDeFrota.Api.Business;
 using ControleDeFrota.Api.Models;
 using ControleDeFrota.Api.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +10,12 @@ namespace ControleDeFrota.Api.Controllers;
 public class UsuariosController : ControllerBase
 {
     private readonly IUsuarioRepository _repository;
+    private readonly IVeiculoRepository _veiculoRepository;
 
-    public UsuariosController(IUsuarioRepository repository)
+    public UsuariosController(IUsuarioRepository repository, IVeiculoRepository veiculoRepository)
     {
         _repository = repository;
+        _veiculoRepository = veiculoRepository;
     }
 
     [HttpGet]
@@ -38,6 +41,28 @@ public class UsuariosController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Usuario>> Post(Usuario usuario)
     {
+        var mensagem = RegraFrota.ValidarUsuario(usuario);
+        if (!string.IsNullOrWhiteSpace(mensagem))
+        {
+            return BadRequest(mensagem);
+        }
+
+        if (usuario.VeiculoId.HasValue)
+        {
+            var veiculo = await _veiculoRepository.ObterPorIdAsync(usuario.VeiculoId.Value);
+            var erroVeiculo = RegraFrota.ValidarVinculoVeiculo(usuario, veiculo!);
+
+            if (veiculo is null)
+            {
+                return BadRequest("Veículo informado não foi encontrado.");
+            }
+
+            if (!string.IsNullOrWhiteSpace(erroVeiculo))
+            {
+                return BadRequest(erroVeiculo);
+            }
+        }
+
         var resultado = await _repository.AdicionarAsync(usuario);
         return CreatedAtAction(nameof(GetById), new { id = resultado.Id }, resultado);
     }
@@ -45,6 +70,27 @@ public class UsuariosController : ControllerBase
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Put(Guid id, Usuario usuario)
     {
+        var mensagem = RegraFrota.ValidarUsuario(usuario);
+        if (!string.IsNullOrWhiteSpace(mensagem))
+        {
+            return BadRequest(mensagem);
+        }
+
+        if (usuario.VeiculoId.HasValue)
+        {
+            var veiculo = await _veiculoRepository.ObterPorIdAsync(usuario.VeiculoId.Value);
+            if (veiculo is null)
+            {
+                return BadRequest("Veículo informado não foi encontrado.");
+            }
+
+            var erroVeiculo = RegraFrota.ValidarVinculoVeiculo(usuario, veiculo);
+            if (!string.IsNullOrWhiteSpace(erroVeiculo))
+            {
+                return BadRequest(erroVeiculo);
+            }
+        }
+
         var resultado = await _repository.AtualizarAsync(id, usuario);
 
         if (resultado is null)

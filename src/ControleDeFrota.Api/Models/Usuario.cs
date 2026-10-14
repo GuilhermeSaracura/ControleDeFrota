@@ -7,4 +7,9 @@ public class Usuario
     public string Email { get; set; } = string.Empty;
     public string Departamento { get; set; } = string.Empty;
     public bool Ativo { get; set; } = true;
+    public TipoContratacao TipoContratacao { get; set; } = TipoContratacao.Funcionario;
+    public bool PossuiHabilitacao { get; set; }
+    public string NumeroHabilitacao { get; set; } = string.Empty;
+    public CategoriaHabilitacao CategoriasHabilitacao { get; set; } = CategoriaHabilitacao.Nenhuma;
+    public Guid? VeiculoId { get; set; }
 }

@@ -8,5 +8,6 @@ public class Veiculo
     public int Ano { get; set; }
     public string Cor { get; set; } = string.Empty;
     public bool Disponivel { get; set; } = true;
+    public CategoriaHabilitacao Categoria { get; set; } = CategoriaHabilitacao.B;
     public Guid? UsuarioId { get; set; }
 }

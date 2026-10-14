@@ -1,3 +1,4 @@
+using ControleDeFrota.Api.Business;
 using ControleDeFrota.Api.Models;
 using ControleDeFrota.Api.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +10,12 @@ namespace ControleDeFrota.Api.Controllers;
 public class VeiculosController : ControllerBase
 {
     private readonly IVeiculoRepository _repository;
+    private readonly IUsuarioRepository _usuarioRepository;
 
-    public VeiculosController(IVeiculoRepository repository)
+    public VeiculosController(IVeiculoRepository repository, IUsuarioRepository usuarioRepository)
     {
         _repository = repository;
+        _usuarioRepository = usuarioRepository;
     }
 
     [HttpGet]
@@ -38,6 +41,21 @@ public class VeiculosController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Veiculo>> Post(Veiculo veiculo)
     {
+        if (veiculo.UsuarioId.HasValue)
+        {
+            var usuario = await _usuarioRepository.ObterPorIdAsync(veiculo.UsuarioId.Value);
+            if (usuario is null)
+            {
+                return BadRequest("Usuário informado não foi encontrado.");
+            }
+
+            var erro = RegraFrota.ValidarVinculoVeiculo(usuario, veiculo);
+            if (!string.IsNullOrWhiteSpace(erro))
+            {
+                return BadRequest(erro);
+            }
+        }
+
         var resultado = await _repository.AdicionarAsync(veiculo);
         return CreatedAtAction(nameof(GetById), new { id = resultado.Id }, resultado);
     }
@@ -45,6 +63,21 @@ public class VeiculosController : ControllerBase
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Put(Guid id, Veiculo veiculo)
     {
+        if (veiculo.UsuarioId.HasValue)
+        {
+            var usuario = await _usuarioRepository.ObterPorIdAsync(veiculo.UsuarioId.Value);
+            if (usuario is null)
+            {
+                return BadRequest("Usuário informado não foi encontrado.");
+            }
+
+            var erro = RegraFrota.ValidarVinculoVeiculo(usuario, veiculo);
+            if (!string.IsNullOrWhiteSpace(erro))
+            {
+                return BadRequest(erro);
+            }
+        }
+
         var resultado = await _repository.AtualizarAsync(id, veiculo);
 
         if (resultado is null)

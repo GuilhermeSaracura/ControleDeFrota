@@ -12,8 +12,28 @@ public class InMemoryVeiculoRepository : IVeiculoRepository
     {
         var veiculosSeed = new[]
         {
-            new Veiculo { Id = Guid.NewGuid(), Placa = "ABC-1234", Modelo = "Fiat Uno", Ano = 2022, Cor = "Branco", Disponivel = true },
-            new Veiculo { Id = Guid.NewGuid(), Placa = "DEF-5678", Modelo = "Chevrolet Onix", Ano = 2023, Cor = "Prata", Disponivel = false }
+            new Veiculo
+            {
+                Id = Guid.NewGuid(),
+                Placa = "ABC-1234",
+                Modelo = "Fiat Uno",
+                Ano = 2022,
+                Cor = "Branco",
+                Disponivel = true,
+                Categoria = CategoriaHabilitacao.B,
+                UsuarioId = null
+            },
+            new Veiculo
+            {
+                Id = Guid.NewGuid(),
+                Placa = "DEF-5678",
+                Modelo = "Chevrolet Onix",
+                Ano = 2023,
+                Cor = "Prata",
+                Disponivel = false,
+                Categoria = CategoriaHabilitacao.C,
+                UsuarioId = null
+            }
         };
 
         foreach (var veiculo in veiculosSeed)

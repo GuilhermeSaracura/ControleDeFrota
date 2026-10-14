@@ -12,8 +12,32 @@ public class InMemoryUsuarioRepository : IUsuarioRepository
     {
         var usuariosSeed = new[]
         {
-            new Usuario { Id = Guid.NewGuid(), Nome = "Maria Silva", Email = "maria@empresa.com", Departamento = "Logística", Ativo = true },
-            new Usuario { Id = Guid.NewGuid(), Nome = "João Pereira", Email = "joao@empresa.com", Departamento = "Operações", Ativo = true }
+            new Usuario
+            {
+                Id = Guid.NewGuid(),
+                Nome = "Maria Silva",
+                Email = "maria@empresa.com",
+                Departamento = "Logística",
+                Ativo = true,
+                TipoContratacao = TipoContratacao.Funcionario,
+                PossuiHabilitacao = true,
+                NumeroHabilitacao = "12345678901",
+                CategoriasHabilitacao = CategoriaHabilitacao.B,
+                VeiculoId = null
+            },
+            new Usuario
+            {
+                Id = Guid.NewGuid(),
+                Nome = "João Pereira",
+                Email = "joao@empresa.com",
+                Departamento = "Operações",
+                Ativo = true,
+                TipoContratacao = TipoContratacao.Funcionario,
+                PossuiHabilitacao = true,
+                NumeroHabilitacao = "98765432109",
+                CategoriasHabilitacao = CategoriaHabilitacao.B | CategoriaHabilitacao.C,
+                VeiculoId = null
+            }
         };
 
         foreach (var usuario in usuariosSeed)
