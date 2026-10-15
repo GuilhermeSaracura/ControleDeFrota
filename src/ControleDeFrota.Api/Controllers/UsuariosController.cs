@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ControleDeFrota.Api.Controllers;
 
+/// <summary>
+/// Expõe os endpoints de gerenciamento de usuários da frota.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class UsuariosController : ControllerBase
@@ -19,6 +22,9 @@ public class UsuariosController : ControllerBase
         _veiculoRepository = veiculoRepository;
     }
 
+    /// <summary>
+    /// Sincroniza o veículo vinculado ao usuário quando o relacionamento é informado.
+    /// </summary>
     private async Task SincronizarVeiculoAsync(Usuario usuario)
     {
         if (usuario.VeiculoId.HasValue)
@@ -34,6 +40,9 @@ public class UsuariosController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Lista todos os usuários cadastrados.
+    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<UsuarioResponseDto>>> Get()
     {
@@ -41,6 +50,9 @@ public class UsuariosController : ControllerBase
         return Ok(usuarios.Select(usuario => usuario.ToResponse()));
     }
 
+    /// <summary>
+    /// Busca um usuário pelo identificador informado.
+    /// </summary>
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<UsuarioResponseDto>> GetById(Guid id)
     {
@@ -54,6 +66,9 @@ public class UsuariosController : ControllerBase
         return Ok(usuario.ToResponse());
     }
 
+    /// <summary>
+    /// Cria um novo usuário e aplica a regra de vínculo com veículo quando necessário.
+    /// </summary>
     [HttpPost]
     public async Task<ActionResult<UsuarioResponseDto>> Post(UsuarioRequestDto request)
     {
@@ -82,6 +97,9 @@ public class UsuariosController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = resultado.Id }, resultado.ToResponse());
     }
 
+    /// <summary>
+    /// Atualiza os dados de um usuário e mantém o vínculo com o veículo consistente.
+    /// </summary>
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Put(Guid id, UsuarioRequestDto request)
     {
@@ -115,6 +133,9 @@ public class UsuariosController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Remove um usuário cadastrado.
+    /// </summary>
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {

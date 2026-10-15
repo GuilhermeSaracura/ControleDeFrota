@@ -1,5 +1,8 @@
 namespace ControleDeFrota.Api.Models;
 
+/// <summary>
+/// Representa um usuário da empresa e seus dados de vínculo com a frota.
+/// </summary>
 public class Usuario
 {
     public Guid Id { get; set; } = Guid.NewGuid();

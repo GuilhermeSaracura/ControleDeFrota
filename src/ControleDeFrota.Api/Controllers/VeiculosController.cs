@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ControleDeFrota.Api.Controllers;
 
+/// <summary>
+/// Expõe os endpoints de gerenciamento de veículos da frota.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class VeiculosController : ControllerBase
@@ -19,6 +22,9 @@ public class VeiculosController : ControllerBase
         _usuarioRepository = usuarioRepository;
     }
 
+    /// <summary>
+    /// Sincroniza o usuário vinculado ao veículo quando o relacionamento é informado.
+    /// </summary>
     private async Task SincronizarUsuarioAsync(Veiculo veiculo)
     {
         if (veiculo.UsuarioId.HasValue)
@@ -34,6 +40,9 @@ public class VeiculosController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Lista todos os veículos cadastrados.
+    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<VeiculoResponseDto>>> Get()
     {
@@ -41,6 +50,9 @@ public class VeiculosController : ControllerBase
         return Ok(veiculos.Select(veiculo => veiculo.ToResponse()));
     }
 
+    /// <summary>
+    /// Busca um veículo pelo identificador informado.
+    /// </summary>
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<VeiculoResponseDto>> GetById(Guid id)
     {
@@ -54,6 +66,9 @@ public class VeiculosController : ControllerBase
         return Ok(veiculo.ToResponse());
     }
 
+    /// <summary>
+    /// Cria um novo veículo e aplica a sincronização do vínculo com o usuário, quando houver.
+    /// </summary>
     [HttpPost]
     public async Task<ActionResult<VeiculoResponseDto>> Post(VeiculoRequestDto request)
     {
@@ -64,6 +79,9 @@ public class VeiculosController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = veiculo.Id }, veiculo.ToResponse());
     }
 
+    /// <summary>
+    /// Atualiza um veículo existente e mantém o vínculo com o usuário consistente.
+    /// </summary>
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Put(Guid id, VeiculoUpdateRequestDto request)
     {
@@ -104,6 +122,9 @@ public class VeiculosController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Remove um veículo cadastrado.
+    /// </summary>
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {

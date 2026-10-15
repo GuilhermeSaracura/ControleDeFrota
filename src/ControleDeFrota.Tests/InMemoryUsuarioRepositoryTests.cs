@@ -6,6 +6,9 @@ namespace ControleDeFrota.Tests;
 
 public class InMemoryUsuarioRepositoryTests
 {
+    /// <summary>
+    /// Verifica que a listagem inicial traz os usuários semeados no repositório em memória.
+    /// </summary>
     [Fact]
     public async Task ObterTodosAsync_DeveRetornarUsuariosSeedados()
     {
@@ -17,6 +20,9 @@ public class InMemoryUsuarioRepositoryTests
         usuarios.Should().Contain(usuario => usuario.Email == "maria@empresa.com");
     }
 
+    /// <summary>
+    /// Verifica que um novo usuário pode ser adicionado ao repositório em memória.
+    /// </summary>
     [Fact]
     public async Task AdicionarAsync_DeveAdicionarNovoUsuario()
     {
@@ -40,6 +46,9 @@ public class InMemoryUsuarioRepositoryTests
         resultado!.Nome.Should().Be("Ana Martins");
     }
 
+    /// <summary>
+    /// Verifica que um usuário existente pode ser atualizado corretamente.
+    /// </summary>
     [Fact]
     public async Task AtualizarAsync_DeveAtualizarUsuarioExistente()
     {

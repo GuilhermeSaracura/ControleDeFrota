@@ -2,6 +2,9 @@ using ControleDeFrota.Api.Models;
 
 namespace ControleDeFrota.Api.Dtos;
 
+/// <summary>
+/// Representa os dados enviados na criação de um usuário.
+/// </summary>
 public class UsuarioRequestDto
 {
     public required string Nome { get; set; }
@@ -14,6 +17,9 @@ public class UsuarioRequestDto
     public Guid? VeiculoId { get; set; }
 }
 
+/// <summary>
+/// Representa os dados retornados em respostas relacionadas a usuários.
+/// </summary>
 public class UsuarioResponseDto
 {
     public Guid Id { get; set; }
@@ -27,8 +33,14 @@ public class UsuarioResponseDto
     public Guid? VeiculoId { get; set; }
 }
 
+/// <summary>
+/// Realiza a conversão entre DTOs e a entidade de usuário.
+/// </summary>
 public static class UsuarioMapper
 {
+    /// <summary>
+    /// Converte a requisição de criação para a entidade interna de usuário.
+    /// </summary>
     public static Usuario ToEntity(this UsuarioRequestDto dto)
     {
         return new Usuario
@@ -44,6 +56,9 @@ public static class UsuarioMapper
         };
     }
 
+    /// <summary>
+    /// Converte a entidade de usuário em um DTO de resposta.
+    /// </summary>
     public static UsuarioResponseDto ToResponse(this Usuario usuario)
     {
         return new UsuarioResponseDto

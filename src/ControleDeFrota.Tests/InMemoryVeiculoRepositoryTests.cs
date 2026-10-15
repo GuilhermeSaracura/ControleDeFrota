@@ -6,6 +6,9 @@ namespace ControleDeFrota.Tests;
 
 public class InMemoryVeiculoRepositoryTests
 {
+    /// <summary>
+    /// Verifica que a listagem inicial traz os veículos semeados no repositório em memória.
+    /// </summary>
     [Fact]
     public async Task ObterTodosAsync_DeveRetornarVeiculosSeedados()
     {
@@ -17,6 +20,9 @@ public class InMemoryVeiculoRepositoryTests
         veiculos.Should().Contain(veiculo => veiculo.Placa == "ABC-1234");
     }
 
+    /// <summary>
+    /// Verifica que um novo veículo pode ser adicionado ao repositório em memória.
+    /// </summary>
     [Fact]
     public async Task AdicionarAsync_DeveAdicionarNovoVeiculo()
     {
@@ -39,6 +45,9 @@ public class InMemoryVeiculoRepositoryTests
         resultado!.Placa.Should().Be("GHI-9012");
     }
 
+    /// <summary>
+    /// Verifica que um veículo existente pode ser removido do repositório.
+    /// </summary>
     [Fact]
     public async Task RemoverAsync_DeveRemoverVeiculoExistente()
     {

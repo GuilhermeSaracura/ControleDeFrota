@@ -6,6 +6,9 @@ namespace ControleDeFrota.Tests;
 
 public class RegraFrotaUtilsTests
 {
+    /// <summary>
+    /// Verifica que a categoria do veículo é aceita quando o usuário possui habilitação compatível.
+    /// </summary>
     [Theory]
     [InlineData(TipoContratacao.Funcionario, CategoriaHabilitacao.B, CategoriaHabilitacao.B)]
     [InlineData(TipoContratacao.Funcionario, CategoriaHabilitacao.BEC, CategoriaHabilitacao.C)]
@@ -36,6 +39,9 @@ public class RegraFrotaUtilsTests
         resultado.Should().BeTrue();
     }
 
+    /// <summary>
+    /// Verifica que a categoria do veículo é rejeitada quando não existe compatibilidade com o usuário.
+    /// </summary>
     [Theory]
     [InlineData(TipoContratacao.Funcionario, CategoriaHabilitacao.B, CategoriaHabilitacao.C)]
     [InlineData(TipoContratacao.Estagiario, CategoriaHabilitacao.B, CategoriaHabilitacao.C)]
@@ -65,6 +71,9 @@ public class RegraFrotaUtilsTests
         resultado.Should().BeFalse();
     }
 
+    /// <summary>
+    /// Verifica que a ausência de veículo gera erro explícito de validação.
+    /// </summary>
     [Fact]
     public void ValidarVinculoVeiculo_DeveRetornarErroQuandoVeiculoNaoExiste()
     {
@@ -82,6 +91,9 @@ public class RegraFrotaUtilsTests
         resultado.Should().Be("Veículo informado não foi encontrado.");
     }
 
+    /// <summary>
+    /// Verifica que o sistema rejeita veículos fora da categoria habilitada do usuário.
+    /// </summary>
     [Fact]
     public void ValidarVinculoVeiculo_DeveRetornarErroQuandoCategoriaNaoCompativel()
     {
@@ -108,6 +120,9 @@ public class RegraFrotaUtilsTests
         resultado.Should().Be("Funcionário não está habilitado para a categoria do veículo informado.");
     }
 
+    /// <summary>
+    /// Verifica que o vínculo com outro veículo é bloqueado quando o usuário já está associado a um veículo diferente.
+    /// </summary>
     [Fact]
     public void ValidarVinculoVeiculo_DeveRetornarErroQuandoUsuarioJaEstaVinculadoAOutroVeiculo()
     {
@@ -134,6 +149,9 @@ public class RegraFrotaUtilsTests
         resultado.Should().Be("Funcionário já está vinculado a outro veículo.");
     }
 
+    /// <summary>
+    /// Verifica que o vínculo válido entre usuário e veículo não gera erro.
+    /// </summary>
     [Fact]
     public void ValidarVinculoVeiculo_DeveRetornarNullQuandoVinculoForValido()
     {

@@ -1,5 +1,8 @@
 namespace ControleDeFrota.Api.Models;
 
+/// <summary>
+/// Representa um veículo da frota e seu vínculo com o responsável pelo uso.
+/// </summary>
 public class Veiculo
 {
     public Guid Id { get; set; } = Guid.NewGuid();
