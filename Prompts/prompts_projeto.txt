@@ -1,0 +1,76 @@
+
+Prompt 1 ---
+
+Auxilie na criação da arquitetura e estrutura do projeto, quero que crie uma simples API Rest para o uso interno de uma empresa, onde essa API vai ser responsável no controle da frota de veículos da empresa e os usuários que utilizam, atualmente crie apenas a estrutura da implementação criando os itens abaixo.
+
+ControleDeFrota/
+.gitignore
+README.md
+ControleDeFrota.sln
+src/
+
+Ajuste a estrutura quando necessário para seguir as convenções oficiais do .NET, mas preserve a separação entre API e Testes Unitários e utilizando repositório em memória, não tendo nenhuma dependência de banco de dados ou que possua ORM externo. Não crie arquivos vazios sem necessidade. Pastas destinadas a implementações futuras poderão ser criadas posteriormente, quando seus primeiros arquivos forem necessários.
+
+Prompt 2 ---
+
+Verifique a configuração para poder validar se é possível testar a aplicação com a ferramenta Swagger. Verifique se a configuração está feita corretamente e caso não esteja, realize a configuração minimamente necessária a fim de ser possível realizar testes.
+
+
+Prompt 3 para Commit ---
+
+Adicione a estrutura do projeto para ser commitado, deve iniciar o git, gerar um commit de uma linha com uma mensagem clara e objetiva, deve seguir a Conventional Commits, exemplo: 'feat: criação da API de controle de funcionários a veículos em csharp' e execute os comandos necessários para subir esse novo repositório.
+
+Prompt 4 ---
+
+Adicione novas regras de negócios onde:
+- O funcionário deve ter properties á mais como, número do documento da habilitação, quais categorias de veículos ele está apto para dirigir (Categoria B, C ou ambos), e qual veículo está em seu nome.
+- Caso o funcionário não tenha habilitação, deve ter uma regra para que o funcionário não seja apto a ter um veículo no nome e nem o veículo ser vinculado ao funcionário.
+- Estagiários e aprendizes não podem ser aptos a conduzir o veículo, então deve haver uma validação para que eles não tenham nenhum veículo vinculado á eles e nenhum veículo tenha o UsuárioID de estagiário e nem aprendiz.
+
+Não altere os Unit tests ainda, isso será feito futuramente em outro prompt, mas adicione essas novas regras.
+
+Prompt 5 ---
+
+Reestruture criando uma pasta com DTOs de requisição/resposta e a interface/implementação do InMemoryUsuarioRepository e do InMemoryVeiculoRepository. Procure manter o código o mais simples e limpo possível.
+
+Prompt 6 ---
+
+Simplifique a validações das regras de negócios dentro do arquivo de 'RegraDeFrota' para o UsuáriosController:
+- Primeiro, renomeie para Utils a pasta, e não Business, e adicione o Utils no final do nome RegraFrota, formando RegraFrotaUtils.cs.
+- Segundo, refatore as validações, como a regra pede que o funcionário seja do tipo 'Funcionário' e tenha habilitação, podemos simplificar dentro do UsuárioController para que na linha 52 acrescentamos essas duas validações (usuario.TipoContratacao == TipoContratacao.Funcionário && usuario.PossuiHabilitacao) e refatorar as validações dentro da função ValidarVinculoVeicullo.
+- Terceiro, não há a necessidade de haver a validação se o usuário é null ou não dentro da RegraFrota.
+
+Prompt 7 ---
+
+Refatore o DTO referente ao veículo 'VeiculoDto', pois não deve ser vinculado um usuário ao veículo quando for cadastrado 'POST', apenas quando for atualizado 'PUT'.
+
+Prompt 8 ---
+
+Refatore removendo a propertie PossuiRefatoracao tanto do Model quanto o Dto do usuário, as demais validações que utilizam ela devem serem substituídas pela propertie NumeroHabilitacao.
+Também crie mais um objeto Usuario dentro do usuariosSeed e um objeto Veiculo dentro do veiculoSeed.
+
+Prompt 9 ---
+
+Adicione as alterações do projeto para ser commitado, deve gerar um commit de uma linha com uma mensagem clara e objetiva, deve seguir a Conventional Commits, procure manter a mensagem de commit simples e clara sobre as alterações realizadas.
+
+Prompt 10 ---
+
+Revise os PUTs tanto dos Usuários quanto referente o dos Veículo
+- Caso haja atualização do veículo do usuário, deve também vincular o mesmo ID do usuário para o veículo na base de dados de veículos.
+- O mesmo deve ocorrer caso seja atualizado o usuário no veículo, deve ser atualizado na base de dados, o usuário informado deve ter o mesmo ID do veículo.
+
+Mantenha o código simples e evitando repetições de lógicas.
+
+Prompt 11 ---
+
+Crie os testes unitários automatizados e que sejam simples, utilizando xUnit e FluentAssertions onde:
+- Deve ser cobrir as regras para veículos e usuários, deve englobar também as funções também do arquivo RegraFrotaUtils.cs.
+- Deve testar os cenários de diferentes TiposContratacao.cs e de CategoriasHabilitacao.cs.
+
+Prompt 12 ---
+
+Reescreva o README.md descrevendo o projeto, linguagem de programação e versões, estrutura do projeto, pré-requisitos, instruções de compilação, execução, acesso ao Swagger, exemplos de payload para cada endpoint e execução dos testes.
+
+Prompt 13 ---
+
+É necessário que nos arquivos sejam adicionados doc strings onde for necessário, sendo descrições simples e claras das funções, objetos e dos unit tests.
