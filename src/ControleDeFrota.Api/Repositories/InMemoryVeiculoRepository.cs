@@ -33,6 +33,17 @@ public class InMemoryVeiculoRepository : IVeiculoRepository
                 Disponivel = false,
                 Categoria = CategoriaHabilitacao.C,
                 UsuarioId = null
+            },
+            new Veiculo
+            {
+                Id = Guid.NewGuid(),
+                Placa = "IJF-0129",
+                Modelo = "Fiat Uno",
+                Ano = 2022,
+                Cor = "Vermelho",
+                Disponivel = true,
+                Categoria = CategoriaHabilitacao.B,
+                UsuarioId = null
             }
         };
 

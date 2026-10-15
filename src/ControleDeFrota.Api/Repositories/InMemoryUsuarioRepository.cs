@@ -20,7 +20,6 @@ public class InMemoryUsuarioRepository : IUsuarioRepository
                 Departamento = "Logística",
                 Ativo = true,
                 TipoContratacao = TipoContratacao.Funcionario,
-                PossuiHabilitacao = true,
                 NumeroHabilitacao = "12345678901",
                 CategoriasHabilitacao = CategoriaHabilitacao.B,
                 VeiculoId = null
@@ -33,9 +32,20 @@ public class InMemoryUsuarioRepository : IUsuarioRepository
                 Departamento = "Operações",
                 Ativo = true,
                 TipoContratacao = TipoContratacao.Funcionario,
-                PossuiHabilitacao = true,
                 NumeroHabilitacao = "98765432109",
                 CategoriasHabilitacao = CategoriaHabilitacao.B | CategoriaHabilitacao.C,
+                VeiculoId = null
+            },
+            new Usuario
+            {
+                Id = Guid.NewGuid(),
+                Nome = "Guilherme",
+                Email = "guilherme@empresa.com",
+                Departamento = "Estágio",
+                Ativo = true,
+                TipoContratacao = TipoContratacao.Estagiario,
+                NumeroHabilitacao = "567891234",
+                CategoriasHabilitacao = CategoriaHabilitacao.C,
                 VeiculoId = null
             }
         };

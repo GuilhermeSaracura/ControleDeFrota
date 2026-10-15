@@ -1,6 +1,7 @@
-using ControleDeFrota.Api.Business;
+using ControleDeFrota.Api.Dtos;
 using ControleDeFrota.Api.Models;
 using ControleDeFrota.Api.Repositories.Interfaces;
+using ControleDeFrota.Api.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ControleDeFrota.Api.Controllers;
@@ -19,14 +20,14 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Usuario>>> Get()
+    public async Task<ActionResult<IEnumerable<UsuarioResponseDto>>> Get()
     {
         var usuarios = await _repository.ObterTodosAsync();
-        return Ok(usuarios);
+        return Ok(usuarios.Select(usuario => usuario.ToResponse()));
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<Usuario>> GetById(Guid id)
+    public async Task<ActionResult<UsuarioResponseDto>> GetById(Guid id)
     {
         var usuario = await _repository.ObterPorIdAsync(id);
 
@@ -35,28 +36,24 @@ public class UsuariosController : ControllerBase
             return NotFound();
         }
 
-        return Ok(usuario);
+        return Ok(usuario.ToResponse());
     }
 
     [HttpPost]
-    public async Task<ActionResult<Usuario>> Post(Usuario usuario)
+    public async Task<ActionResult<UsuarioResponseDto>> Post(UsuarioRequestDto request)
     {
-        var mensagem = RegraFrota.ValidarUsuario(usuario);
-        if (!string.IsNullOrWhiteSpace(mensagem))
-        {
-            return BadRequest(mensagem);
-        }
+        var usuario = request.ToEntity();
 
         if (usuario.VeiculoId.HasValue)
         {
-            var veiculo = await _veiculoRepository.ObterPorIdAsync(usuario.VeiculoId.Value);
-            var erroVeiculo = RegraFrota.ValidarVinculoVeiculo(usuario, veiculo!);
-
-            if (veiculo is null)
+            if (usuario.TipoContratacao != TipoContratacao.Funcionario || string.IsNullOrWhiteSpace(usuario.NumeroHabilitacao))
             {
-                return BadRequest("Veículo informado não foi encontrado.");
+                return BadRequest("Funcionário deve ser do tipo Funcionário e possuir habilitação para ter veículo vinculado.");
             }
 
+            var veiculo = await _veiculoRepository.ObterPorIdAsync(usuario.VeiculoId.Value);
+
+            var erroVeiculo = RegraFrotaUtils.ValidarVinculoVeiculo(usuario, veiculo);
             if (!string.IsNullOrWhiteSpace(erroVeiculo))
             {
                 return BadRequest(erroVeiculo);
@@ -64,27 +61,24 @@ public class UsuariosController : ControllerBase
         }
 
         var resultado = await _repository.AdicionarAsync(usuario);
-        return CreatedAtAction(nameof(GetById), new { id = resultado.Id }, resultado);
+        return CreatedAtAction(nameof(GetById), new { id = resultado.Id }, resultado.ToResponse());
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Put(Guid id, Usuario usuario)
+    public async Task<IActionResult> Put(Guid id, UsuarioRequestDto request)
     {
-        var mensagem = RegraFrota.ValidarUsuario(usuario);
-        if (!string.IsNullOrWhiteSpace(mensagem))
-        {
-            return BadRequest(mensagem);
-        }
+        var usuario = request.ToEntity();
 
         if (usuario.VeiculoId.HasValue)
         {
-            var veiculo = await _veiculoRepository.ObterPorIdAsync(usuario.VeiculoId.Value);
-            if (veiculo is null)
+            if (usuario.TipoContratacao != TipoContratacao.Funcionario || string.IsNullOrWhiteSpace(usuario.NumeroHabilitacao))
             {
-                return BadRequest("Veículo informado não foi encontrado.");
+                return BadRequest("Funcionário deve ser do tipo Funcionário e possuir habilitação para ter veículo vinculado.");
             }
 
-            var erroVeiculo = RegraFrota.ValidarVinculoVeiculo(usuario, veiculo);
+            var veiculo = await _veiculoRepository.ObterPorIdAsync(usuario.VeiculoId.Value);
+
+            var erroVeiculo = RegraFrotaUtils.ValidarVinculoVeiculo(usuario, veiculo);
             if (!string.IsNullOrWhiteSpace(erroVeiculo))
             {
                 return BadRequest(erroVeiculo);
