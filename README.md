@@ -65,7 +65,7 @@ dotnet run --project src/ControleDeFrota.Api
 A API fica disponível em:
 
 - http://localhost:5000
-- https://localhost:5062
+- http://localhost:5062
 
 Obs.: a porta pode variar conforme configuração local do ambiente.
 
@@ -76,7 +76,7 @@ A API já está configurada para expor a documentação OpenAPI/Swagger.
 Após iniciar a aplicação, acesse no navegador:
 
 ```text
-https://localhost:5062/swagger
+http://localhost:5062/swagger
 ```
 
 Ou, se estiver usando HTTP local:
