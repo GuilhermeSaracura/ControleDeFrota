@@ -3,10 +3,10 @@ namespace ControleDeFrota.Api.Models;
 public class Veiculo
 {
     public Guid Id { get; set; } = Guid.NewGuid();
-    public string Placa { get; set; } = string.Empty;
-    public string Modelo { get; set; } = string.Empty;
+    public required string Placa { get; set; }
+    public required string Modelo { get; set; }
     public int Ano { get; set; }
-    public string Cor { get; set; } = string.Empty;
+    public required string Cor { get; set; }
     public bool Disponivel { get; set; } = true;
     public CategoriaHabilitacao Categoria { get; set; }
     public Guid? UsuarioId { get; set; }

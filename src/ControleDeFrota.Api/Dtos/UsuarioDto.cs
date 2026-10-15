@@ -4,8 +4,8 @@ namespace ControleDeFrota.Api.Dtos;
 
 public class UsuarioRequestDto
 {
-    public string Nome { get; set; }
-    public string Email { get; set; }
+    public required string Nome { get; set; }
+    public required string Email { get; set; }
     public string Departamento { get; set; } = string.Empty;
     public bool Ativo { get; set; } = true;
     public TipoContratacao TipoContratacao { get; set; }
@@ -17,8 +17,8 @@ public class UsuarioRequestDto
 public class UsuarioResponseDto
 {
     public Guid Id { get; set; }
-    public string Nome { get; set; }
-    public string Email { get; set; }
+    public required string Nome { get; set; }
+    public required string Email { get; set; }
     public string Departamento { get; set; } = string.Empty;
     public bool Ativo { get; set; }
     public TipoContratacao TipoContratacao { get; set; }

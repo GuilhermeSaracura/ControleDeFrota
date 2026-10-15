@@ -18,10 +18,18 @@ public class RegraFrotaUtilsTests
     {
         var usuario = new Usuario
         {
+            Nome = "Usuário Teste",
+            Email = "usuario@empresa.com",
             TipoContratacao = tipoContratacao,
             CategoriasHabilitacao = categoriasHabilitacao
         };
-        var veiculo = new Veiculo { Categoria = categoriaVeiculo };
+        var veiculo = new Veiculo
+        {
+            Placa = "ABC-1234",
+            Modelo = "Fiat Uno",
+            Cor = "Branco",
+            Categoria = categoriaVeiculo
+        };
 
         var resultado = RegraFrotaUtils.PossuiCategoriaParaVeiculo(usuario, veiculo);
 
@@ -39,10 +47,18 @@ public class RegraFrotaUtilsTests
     {
         var usuario = new Usuario
         {
+            Nome = "Usuário Teste",
+            Email = "usuario@empresa.com",
             TipoContratacao = tipoContratacao,
             CategoriasHabilitacao = categoriasHabilitacao
         };
-        var veiculo = new Veiculo { Categoria = categoriaVeiculo };
+        var veiculo = new Veiculo
+        {
+            Placa = "DEF-5678",
+            Modelo = "Chevrolet Onix",
+            Cor = "Prata",
+            Categoria = categoriaVeiculo
+        };
 
         var resultado = RegraFrotaUtils.PossuiCategoriaParaVeiculo(usuario, veiculo);
 
@@ -54,6 +70,8 @@ public class RegraFrotaUtilsTests
     {
         var usuario = new Usuario
         {
+            Nome = "Maria Silva",
+            Email = "maria@empresa.com",
             TipoContratacao = TipoContratacao.Funcionario,
             CategoriasHabilitacao = CategoriaHabilitacao.B,
             VeiculoId = Guid.NewGuid()
@@ -69,6 +87,8 @@ public class RegraFrotaUtilsTests
     {
         var usuario = new Usuario
         {
+            Nome = "João Silva",
+            Email = "joao@empresa.com",
             TipoContratacao = TipoContratacao.Funcionario,
             CategoriasHabilitacao = CategoriaHabilitacao.B,
             VeiculoId = Guid.NewGuid()
@@ -76,6 +96,9 @@ public class RegraFrotaUtilsTests
         var veiculo = new Veiculo
         {
             Id = Guid.NewGuid(),
+            Placa = "GHI-9012",
+            Modelo = "Toyota Corolla",
+            Cor = "Azul",
             Categoria = CategoriaHabilitacao.C,
             UsuarioId = usuario.Id
         };
@@ -90,6 +113,8 @@ public class RegraFrotaUtilsTests
     {
         var usuario = new Usuario
         {
+            Nome = "Carlos Souza",
+            Email = "carlos@empresa.com",
             TipoContratacao = TipoContratacao.Funcionario,
             CategoriasHabilitacao = CategoriaHabilitacao.B,
             VeiculoId = Guid.NewGuid()
@@ -97,6 +122,9 @@ public class RegraFrotaUtilsTests
         var veiculo = new Veiculo
         {
             Id = Guid.NewGuid(),
+            Placa = "JKL-3456",
+            Modelo = "Honda Civic",
+            Cor = "Preto",
             Categoria = CategoriaHabilitacao.B,
             UsuarioId = usuario.Id
         };
@@ -114,6 +142,8 @@ public class RegraFrotaUtilsTests
         var usuario = new Usuario
         {
             Id = usuarioId,
+            Nome = "Fernanda Costa",
+            Email = "fernanda@empresa.com",
             TipoContratacao = TipoContratacao.Funcionario,
             CategoriasHabilitacao = CategoriaHabilitacao.BEC,
             VeiculoId = veiculoId
@@ -121,6 +151,9 @@ public class RegraFrotaUtilsTests
         var veiculo = new Veiculo
         {
             Id = veiculoId,
+            Placa = "LMN-6789",
+            Modelo = "Volkswagen Gol",
+            Cor = "Cinza",
             Categoria = CategoriaHabilitacao.B,
             UsuarioId = usuarioId
         };

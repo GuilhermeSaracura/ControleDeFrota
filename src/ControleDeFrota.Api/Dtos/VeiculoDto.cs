@@ -4,20 +4,20 @@ namespace ControleDeFrota.Api.Dtos;
 
 public class VeiculoRequestDto
 {
-    public string Placa { get; set; }
-    public string Modelo { get; set; }
+    public required string Placa { get; set; }
+    public required string Modelo { get; set; }
     public int Ano { get; set; }
-    public string Cor { get; set; }
+    public required string Cor { get; set; }
     public bool Disponivel { get; set; } = true;
     public CategoriaHabilitacao Categoria { get; set; }
 }
 
 public class VeiculoUpdateRequestDto
 {
-    public string Placa { get; set; }
-    public string Modelo { get; set; }
+    public required string Placa { get; set; }
+    public required string Modelo { get; set; }
     public int Ano { get; set; }
-    public string Cor { get; set; }
+    public required string Cor { get; set; }
     public bool Disponivel { get; set; }
     public CategoriaHabilitacao Categoria { get; set; }
     public Guid? UsuarioId { get; set; }
@@ -26,10 +26,10 @@ public class VeiculoUpdateRequestDto
 public class VeiculoResponseDto
 {
     public Guid Id { get; set; }
-    public string Placa { get; set; }
-    public string Modelo { get; set; }
+    public required string Placa { get; set; }
+    public required string Modelo { get; set; }
     public int Ano { get; set; }
-    public string Cor { get; set; }
+    public required string Cor { get; set; }
     public bool Disponivel { get; set; }
     public CategoriaHabilitacao Categoria { get; set; }
     public Guid? UsuarioId { get; set; }
