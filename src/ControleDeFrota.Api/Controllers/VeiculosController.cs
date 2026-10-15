@@ -19,6 +19,18 @@ public class VeiculosController : ControllerBase
         _usuarioRepository = usuarioRepository;
     }
 
+    private async Task SincronizarUsuarioAsync(Veiculo veiculo)
+    {
+        var usuario = await _usuarioRepository.ObterPorIdAsync(veiculo.UsuarioId.Value);
+        if (usuario is null)
+        {
+            return;
+        }
+
+        usuario.VeiculoId = veiculo.Id;
+        await _usuarioRepository.AtualizarAsync(usuario.Id, usuario);
+    }
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<VeiculoResponseDto>>> Get()
     {
@@ -45,6 +57,12 @@ public class VeiculosController : ControllerBase
         var veiculo = request.ToEntity();
 
         var resultado = await _repository.AdicionarAsync(veiculo);
+
+        if (resultado.UsuarioId.HasValue)
+        {
+            await SincronizarUsuarioAsync(resultado);
+        }
+
         return CreatedAtAction(nameof(GetById), new { id = resultado.Id }, resultado.ToResponse());
     }
 
@@ -78,6 +96,11 @@ public class VeiculosController : ControllerBase
         if (resultado is null)
         {
             return NotFound();
+        }
+
+        if (resultado.UsuarioId.HasValue)
+        {
+            await SincronizarUsuarioAsync(resultado);
         }
 
         return NoContent();
