@@ -1,5 +1,6 @@
 using ControleDeFrota.Api.Models;
 using ControleDeFrota.Api.Repositories;
+using FluentAssertions;
 
 namespace ControleDeFrota.Tests;
 
@@ -12,8 +13,8 @@ public class InMemoryVeiculoRepositoryTests
 
         var veiculos = await repository.ObterTodosAsync();
 
-        Assert.NotEmpty(veiculos);
-        Assert.Contains(veiculos, veiculo => veiculo.Placa == "ABC-1234");
+        veiculos.Should().NotBeEmpty();
+        veiculos.Should().Contain(veiculo => veiculo.Placa == "ABC-1234");
     }
 
     [Fact]
@@ -26,15 +27,16 @@ public class InMemoryVeiculoRepositoryTests
             Modelo = "Toyota Corolla",
             Ano = 2024,
             Cor = "Azul",
-            Disponivel = true
+            Disponivel = true,
+            Categoria = CategoriaHabilitacao.B
         };
 
         await repository.AdicionarAsync(veiculo);
 
         var resultado = await repository.ObterPorIdAsync(veiculo.Id);
 
-        Assert.NotNull(resultado);
-        Assert.Equal("GHI-9012", resultado!.Placa);
+        resultado.Should().NotBeNull();
+        resultado!.Placa.Should().Be("GHI-9012");
     }
 
     [Fact]
@@ -47,13 +49,14 @@ public class InMemoryVeiculoRepositoryTests
             Modelo = "Honda Civic",
             Ano = 2021,
             Cor = "Preto",
-            Disponivel = true
+            Disponivel = true,
+            Categoria = CategoriaHabilitacao.C
         };
 
         await repository.AdicionarAsync(veiculo);
         var removido = await repository.RemoverAsync(veiculo.Id);
 
-        Assert.True(removido);
-        Assert.Null(await repository.ObterPorIdAsync(veiculo.Id));
+        removido.Should().BeTrue();
+        (await repository.ObterPorIdAsync(veiculo.Id)).Should().BeNull();
     }
 }

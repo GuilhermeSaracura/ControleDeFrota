@@ -1,5 +1,6 @@
 using ControleDeFrota.Api.Models;
 using ControleDeFrota.Api.Repositories;
+using FluentAssertions;
 
 namespace ControleDeFrota.Tests;
 
@@ -12,8 +13,8 @@ public class InMemoryUsuarioRepositoryTests
 
         var usuarios = await repository.ObterTodosAsync();
 
-        Assert.NotEmpty(usuarios);
-        Assert.Contains(usuarios, usuario => usuario.Email == "maria@empresa.com");
+        usuarios.Should().NotBeEmpty();
+        usuarios.Should().Contain(usuario => usuario.Email == "maria@empresa.com");
     }
 
     [Fact]
@@ -25,15 +26,18 @@ public class InMemoryUsuarioRepositoryTests
             Nome = "Ana Martins",
             Email = "ana@empresa.com",
             Departamento = "Financeiro",
-            Ativo = true
+            Ativo = true,
+            TipoContratacao = TipoContratacao.Funcionario,
+            NumeroHabilitacao = "12345678900",
+            CategoriasHabilitacao = CategoriaHabilitacao.B
         };
 
         await repository.AdicionarAsync(usuario);
 
         var resultado = await repository.ObterPorIdAsync(usuario.Id);
 
-        Assert.NotNull(resultado);
-        Assert.Equal("Ana Martins", resultado!.Nome);
+        resultado.Should().NotBeNull();
+        resultado!.Nome.Should().Be("Ana Martins");
     }
 
     [Fact]
@@ -45,7 +49,10 @@ public class InMemoryUsuarioRepositoryTests
             Nome = "Carlos Costa",
             Email = "carlos@empresa.com",
             Departamento = "TI",
-            Ativo = true
+            Ativo = true,
+            TipoContratacao = TipoContratacao.Funcionario,
+            NumeroHabilitacao = "11122233344",
+            CategoriasHabilitacao = CategoriaHabilitacao.BEC
         };
 
         await repository.AdicionarAsync(usuario);
@@ -53,7 +60,7 @@ public class InMemoryUsuarioRepositoryTests
 
         var atualizado = await repository.AtualizarAsync(usuario.Id, usuario);
 
-        Assert.NotNull(atualizado);
-        Assert.Equal("Carlos Costa Jr.", atualizado!.Nome);
+        atualizado.Should().NotBeNull();
+        atualizado!.Nome.Should().Be("Carlos Costa Jr.");
     }
 }
