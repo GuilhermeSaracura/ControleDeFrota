@@ -74,3 +74,25 @@ Reescreva o README.md descrevendo o projeto, linguagem de programação e versõ
 Prompt 13 ---
 
 É necessário que nos arquivos sejam adicionados doc strings onde for necessário, sendo descrições simples e claras das funções, objetos e dos unit tests.
+
+Prompt 14 ---
+
+Realizando a validação, verificou-se que faltou o método de adição do veículo ao reposítório, precisa-se que:
+
+- Seja adicionado o método AdicionarAsync para veículos.
+- Adicione testes de integração para poder validar se o veículo está sendo cadastrado ou não esteja sendo.
+- Não é para criar o commit ainda pois será validado a lógica antes de seguir com o commit
+
+Prompt 15 ---
+
+Para o comando DELETE para usuário e veiculo, quando um usuário ou veiculo for removido, precisa ser validado em caso de haver um ID relacionado:
+
+- Deve ser removido o ID do item deletado para qualquer objeto que contenha esse ID relacionado
+
+Exemplo: (ao deletar o usuário com ID 99, deve ser verificado se em algúm veículo tenha um usuarioID igual, caso haja, tem que tornar o valor null do usuarioID).
+
+Prompt 16 ---
+
+- Crie os Unit tests que validem essa integração entre os deletes de usuário e veículo IDs,
+- Monte os UTs que validem o Post de veículos,
+- Monte os UTs do UsuarioController e VeiculoController validando todos os endpoints

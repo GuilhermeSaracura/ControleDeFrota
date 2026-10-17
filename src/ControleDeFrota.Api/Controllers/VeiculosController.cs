@@ -74,9 +74,9 @@ public class VeiculosController : ControllerBase
     {
         var veiculo = request.ToEntity();
 
-        await SincronizarUsuarioAsync(veiculo);
+        var resultado = await _repository.AdicionarAsync(veiculo);
 
-        return CreatedAtAction(nameof(GetById), new { id = veiculo.Id }, veiculo.ToResponse());
+        return CreatedAtAction(nameof(GetById), new { id = resultado.Id }, resultado.ToResponse());
     }
 
     /// <summary>
@@ -133,6 +133,13 @@ public class VeiculosController : ControllerBase
         if (!removido)
         {
             return NotFound();
+        }
+
+        var usuarios = await _usuarioRepository.ObterTodosAsync();
+        foreach (var usuario in usuarios.Where(u => u.VeiculoId == id))
+        {
+            usuario.VeiculoId = null;
+            await _usuarioRepository.AtualizarAsync(usuario.Id, usuario);
         }
 
         return NoContent();

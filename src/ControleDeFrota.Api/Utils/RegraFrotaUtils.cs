@@ -30,7 +30,7 @@ public static class RegraFrotaUtils
             return "Funcionário não está habilitado para a categoria do veículo informado.";
         }
 
-        if (usuario.VeiculoId != veiculo.Id)
+        if (usuario.VeiculoId.HasValue && usuario.VeiculoId != veiculo.Id)
         {
             return "Funcionário já está vinculado a outro veículo.";
         }

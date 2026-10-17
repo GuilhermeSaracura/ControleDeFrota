@@ -146,6 +146,13 @@ public class UsuariosController : ControllerBase
             return NotFound();
         }
 
+        var veiculos = await _veiculoRepository.ObterTodosAsync();
+        foreach (var veiculo in veiculos.Where(v => v.UsuarioId == id))
+        {
+            veiculo.UsuarioId = null;
+            await _veiculoRepository.AtualizarAsync(veiculo.Id, veiculo);
+        }
+
         return NoContent();
     }
 }
